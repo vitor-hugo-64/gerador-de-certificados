@@ -1,0 +1,40 @@
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="px-1 py-3 text-center">
+            <h2>Estes são os seus certificados já disponíveis</h2>
+            <div>
+              <strong>Em caso de dúvida entrar em contato com 'cpa@liberato.com.br'</strong>
+            </div>
+          </div>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Livro</th>
+                <th scope="col">Folha</th>
+                <th scope="col">Registro</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Email</th>
+                <th scope="col">Evento</th>
+                <th scope="col">Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loop="$datas"}
+                <tr>
+                  <th>{$value.id}</th>
+                  <td>{$value.Livro}</td>
+                  <td>{$value.Folha}</td>
+                  <td>{$value.Registro}</td>
+                  <td>{$value.nome}</td>
+                  <td>{$value.email}</td>
+                  <td>{$value.evento}</td>
+                  <td><a href="/certificado/{$value.Livro}/{$value.Folha}/{$value.Registro}/{$value.nome}/{$value.evento}" class="btn btn-sm btn-outline-primary">Gerar Certificado</a></td>
+                </tr>
+              {/loop}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>

@@ -1,36 +1,41 @@
 <?php
 
-	function gerarCertificado($datas = array())
-	{
-		header("Content-Type: image/jpg");
-		
-		$imagem = imagecreatefromjpeg("img/certificado.jpg");
+	session_start();
+	header("Content-Type: image/jpg");
+					
+	$imagem = imagecreatefromjpeg("res/img/certificado.jpg");
 
-		$corTitulo = imagecolorallocate($imagem, 0, 0, 0);
-		$cinza = imagecolorallocate($imagem, 100, 100, 100);
+	$corTitulo = imagecolorallocate($imagem, 0, 0, 0);
+	$cinza = imagecolorallocate($imagem, 100, 100, 100);
 
-		$fonteTitulo = __dir__.DIRECTORY_SEPARATOR."fonts".DIRECTORY_SEPARATOR."Cocogoose Pro-trial.ttf";
-		$fonteTexto = __dir__.DIRECTORY_SEPARATOR."fonts".DIRECTORY_SEPARATOR."Cocogoose Pro Semilight-trial.ttf";
+	$fonteTitulo = $_SESSION['fonteTitulo'];
+	$fonteTexto = $_SESSION['fonteTexto'];
+	$fonteNumero = $_SESSION['fonteNumero'];
 
-		$textoCertificado = "Gostariamos de conferir este certificado pela sua participação em nosso evento";
+	$textoCertificado = "Gostariamos de conferir este certificado pela sua participação em nosso evento";
 
-		imagettftext($imagem, 38, 0, 470, 180, $corTitulo, $fonteTitulo, "CERTIFICADO");
-		imagettftext($imagem, 23, 0, 400, 330, $cinza, $fonteTexto, $datas['nome']);
-		imagettftext($imagem, 15, 0, 200, 400, $cinza, $fonteTexto, $textoCertificado);
-		imagettftext($imagem, 12, 0, 120, 730, $cinza, $fonteTexto, "Livro: ".$datas['livro']);
-		imagettftext($imagem, 12, 0, 120, 750, $cinza, $fonteTexto, "Folha: ".$datas['folha']);
-		imagettftext($imagem, 12, 0, 120, 770, $cinza, $fonteTexto, "Registro: ".$datas['registro']);
-		imagettftext($imagem, 12, 0, 120, 790, $cinza, $fonteTexto, "Evento: ".$datas['evento']);
-		imagettftext($imagem, 12, 0, 120, 810, $cinza, $fonteTexto, "Arquivo: ".$datas['arquivo']);
+	$x = 0;
 
-		imagejpeg($imagem);
+	if ((strlen($_SESSION['nome'])) >= 27) {
+		$x = 400;
+	} elseif ((strlen($_SESSION['nome'])) >= 22) {
+		$x = 450;
+	} elseif ((strlen($_SESSION['nome'])) >= 18) {
+		$x = 482;
+	} elseif ((strlen($_SESSION['nome'])) >= 16) {
+		$x = 498;
+	}  elseif ((strlen($_SESSION['nome'])) >= 14) {
+		$x = 520;
+	} elseif ((strlen($_SESSION['nome'])) >= 10) {
+		$x = 550;
 	}
 
-	gerarCertificado([
-						'nome' => 'Vitor Hugo Balon de Oliveira', 
-						'livro' => 'Informação Livro', 
-						'folha' => 'Informação Livro', 
-						'registro' => 'Informação Registro',
-						'evento' => 'Informação Evento',
-						'arquivo' => 'Informação Arquivo'
-					]);
+	imagettftext($imagem, 38, 0, 470, 180, $corTitulo, $fonteTitulo, "CERTIFICADO");
+	imagettftext($imagem, 23, 0, $x, 330, $cinza, $fonteTexto, $_SESSION['nome']);
+	imagettftext($imagem, 15, 0, 200, 400, $cinza, $fonteTexto, $textoCertificado);
+	imagettftext($imagem, 15, 0, 120, 730, $cinza, $fonteNumero, "Livro: ".$_SESSION['livro']);
+	imagettftext($imagem, 15, 0, 120, 750, $cinza, $fonteNumero, "Folha: ".$_SESSION['folha']);
+	imagettftext($imagem, 15, 0, 120, 770, $cinza, $fonteNumero, "Registro: ".$_SESSION['registro']);
+	imagettftext($imagem, 15, 0, 120, 790, $cinza, $fonteNumero, "Evento: ".$_SESSION['evento']);
+
+	imagejpeg($imagem);
